@@ -53,10 +53,9 @@ def main():
               zip.file(prefix + 'chapter.xhtml', '<?xml version="1.0"?><html xmlns="http://www.w3.org/1999/xhtml"><head><title>Test</title></head><body><p>Original multi-package regression text.</p><img src="image.png" alt="original square"/></body></html>');
               zip.file(prefix + 'toc.ncx', '<?xml version="1.0"?><ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1"><head><meta name="dtb:uid" content="' + (order.length === 1 ? 'stale-single-id' : id) + '"/></head><docTitle><text>Test</text></docTitle><navMap><navPoint id="chapter" playOrder="1"><navLabel><text>Chapter</text></navLabel><content src="chapter.xhtml"/></navPoint></navMap></ncx>');
               zip.file(prefix + 'font.bin', new Uint8Array([0, 1, 2, 3]));
-              const canvas = document.createElement('canvas'); canvas.width = 16; canvas.height = 16;
-              const ctx = canvas.getContext('2d'); ctx.fillStyle = 'black'; ctx.fillRect(0, 0, 16, 16);
-              const png = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-              zip.file(prefix + 'image.png', await png.arrayBuffer());
+              // Fixed original 16x16 black PNG: input bytes do not depend on browser canvas encoding.
+              const png = atob('iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAAEUlEQVR4nGNgGAWjYBQwQAEAAxAAAXyL/2UAAAAASUVORK5CYII=');
+              zip.file(prefix + 'image.png', Uint8Array.from(png, c => c.charCodeAt(0)));
             }
             zip.forEach((path, entry) => { entry.date = new Date('2020-01-01T00:00:00Z'); });
             const input = await zip.generateAsync({type: 'arraybuffer'});
