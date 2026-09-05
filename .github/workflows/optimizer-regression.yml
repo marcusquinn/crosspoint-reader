@@ -1,0 +1,59 @@
+name: Multi-OPF regression demonstration
+
+on:
+  push:
+    branches: [ci/optimizer-regression]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  regression:
+    name: ${{ matrix.label }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: Reproduce baseline defect
+            ref: 9d2f234e1d20a875347d3a339b73d5d539fd945c
+            expect: broken
+          - label: Verify fixed optimizer
+            ref: 3eb6deb6ab3a371d4a5eed07542189ef5bfb5659
+            expect: working
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          path: harness
+          persist-credentials: false
+      - uses: actions/checkout@v6
+        with:
+          repository: crosspoint-reader/crosspoint-reader
+          ref: ${{ matrix.ref }}
+          path: firmware
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+      - name: Install browser
+        run: |
+          python -m pip install playwright==1.62.0
+          python -m playwright install --with-deps chromium
+      - name: Run real browser optimizer
+        env:
+          EXPECT: ${{ matrix.expect }}
+        run: |
+          mkdir artifacts
+          git -C harness rev-parse HEAD > artifacts/harness-sha.txt
+          git -C firmware rev-parse HEAD > artifacts/firmware-sha.txt
+          python harness/scripts/optimizer_regression.py --source firmware \
+            --output artifacts/results --expect "$EXPECT"
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: optimizer-${{ matrix.expect }}-${{ github.run_id }}
+          path: artifacts/
+          retention-days: 14
+          if-no-files-found: error
