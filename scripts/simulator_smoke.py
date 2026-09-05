@@ -7,6 +7,7 @@ output directory; it never reads or deletes a developer's simulated SD card.
 
 import argparse
 import hashlib
+import io
 import json
 import os
 from pathlib import Path
@@ -57,11 +58,19 @@ def make_book(path):
         '<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Reading test</title></head>'
         f'<body><h1>Reading test</h1>{paragraphs}</body></html>',
     }
+    # Regression fixture for #2994: a real PNG incorrectly used as a spine page.
+    # This demonstration branch is deliberately separate from the general CI PR.
+    entries["OEBPS/content.opf"] = entries["OEBPS/content.opf"].replace(
+        "</manifest>", '<item id="image" href="image.png" media-type="image/png"/></manifest>'
+    ).replace('<spine toc="ncx">', '<spine toc="ncx"><itemref idref="image"/>')
+    image = io.BytesIO()
+    Image.new("RGB", (8, 8), "black").save(image, format="PNG")
+    entries["OEBPS/image.png"] = image.getvalue()
     with zipfile.ZipFile(path, "w") as book:
         for name, text in entries.items():
             info = zipfile.ZipInfo(name, date_time=(2020, 1, 1, 0, 0, 0))
             info.compress_type = zipfile.ZIP_STORED if name == "mimetype" else zipfile.ZIP_DEFLATED
-            book.writestr(info, text.encode("utf-8"))
+            book.writestr(info, text if isinstance(text, bytes) else text.encode("utf-8"))
 
 
 def run_phase(binary, output, name, buttons, screenshots):
