@@ -1,0 +1,134 @@
+[
+  {
+    "control": "baseline",
+    "device": "x3",
+    "firmware_sha": "59bda6bc38fa074d2b2b3b2b03dd877c7fc5464d",
+    "harness_sha": "59bda6bc38fa074d2b2b3b2b03dd877c7fc5464d",
+    "fixture_sha256": "78fbeec2c40051d75a17ea8a6335e50482abeadd55aa8266d6d68e7cb7a4276c",
+    "build": "passed",
+    "result": {
+      "status": "passed",
+      "device": "x3",
+      "screen_size": [
+        528,
+        792
+      ],
+      "transitions": [
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "1"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "1"
+        ]
+      ],
+      "saved_progress": {
+        "spine": 0,
+        "page": 1,
+        "page_count": 26
+      },
+      "book_sha256": "78fbeec2c40051d75a17ea8a6335e50482abeadd55aa8266d6d68e7cb7a4276c"
+    }
+  },
+  {
+    "control": "baseline",
+    "device": "x4",
+    "firmware_sha": "59bda6bc38fa074d2b2b3b2b03dd877c7fc5464d",
+    "harness_sha": "59bda6bc38fa074d2b2b3b2b03dd877c7fc5464d",
+    "fixture_sha256": "78fbeec2c40051d75a17ea8a6335e50482abeadd55aa8266d6d68e7cb7a4276c",
+    "build": "passed",
+    "result": {
+      "status": "passed",
+      "device": "x4",
+      "screen_size": [
+        480,
+        800
+      ],
+      "transitions": [
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "1"
+        ],
+        [
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "1"
+        ]
+      ],
+      "saved_progress": {
+        "spine": 0,
+        "page": 1,
+        "page_count": 28
+      },
+      "book_sha256": "78fbeec2c40051d75a17ea8a6335e50482abeadd55aa8266d6d68e7cb7a4276c"
+    }
+  },
+  {
+    "control": "skip-page",
+    "device": "x3",
+    "firmware_sha": "24ce277c697bc9326de67bb031ef30d53974209d",
+    "harness_sha": "59bda6bc38fa074d2b2b3b2b03dd877c7fc5464d",
+    "fixture_sha256": "78fbeec2c40051d75a17ea8a6335e50482abeadd55aa8266d6d68e7cb7a4276c",
+    "build": "passed",
+    "result": {
+      "status": "failed",
+      "device": "x3",
+      "error": "Round-trip navigation changed content: page-1 / page-1-back"
+    }
+  },
+  {
+    "control": "skip-page",
+    "device": "x4",
+    "firmware_sha": "24ce277c697bc9326de67bb031ef30d53974209d",
+    "harness_sha": "59bda6bc38fa074d2b2b3b2b03dd877c7fc5464d",
+    "fixture_sha256": "78fbeec2c40051d75a17ea8a6335e50482abeadd55aa8266d6d68e7cb7a4276c",
+    "build": "passed",
+    "result": {
+      "status": "failed",
+      "device": "x4",
+      "error": "Round-trip navigation changed content: page-1 / page-1-back"
+    }
+  },
+  {
+    "control": "drop-progress",
+    "device": "x3",
+    "firmware_sha": "cad733b6b405e6d91c9bd8a3a061a867bfffe0c7",
+    "harness_sha": "59bda6bc38fa074d2b2b3b2b03dd877c7fc5464d",
+    "fixture_sha256": "78fbeec2c40051d75a17ea8a6335e50482abeadd55aa8266d6d68e7cb7a4276c",
+    "build": "passed",
+    "result": {
+      "status": "failed",
+      "device": "x3",
+      "error": "Expected one persisted EPUB progress file"
+    }
+  },
+  {
+    "control": "drop-progress",
+    "device": "x4",
+    "firmware_sha": "cad733b6b405e6d91c9bd8a3a061a867bfffe0c7",
+    "harness_sha": "59bda6bc38fa074d2b2b3b2b03dd877c7fc5464d",
+    "fixture_sha256": "78fbeec2c40051d75a17ea8a6335e50482abeadd55aa8266d6d68e7cb7a4276c",
+    "build": "passed",
+    "result": {
+      "status": "failed",
+      "device": "x4",
+      "error": "Expected one persisted EPUB progress file"
+    }
+  }
+]
