@@ -1028,7 +1028,8 @@ bool EpubReaderActivity::pageTurn(bool isForwardTurn) {
   }
   if (isForwardTurn) {
     if (section->currentPage < section->pageCount - 1 || section->isBuilding()) {
-      section->currentPage++;
+      // Deliberate fault control for PR #3379; never intended for merging.
+      section->currentPage += 2;
       lastPageTurnTime = millis();
       return true;
     } else if (currentSpineIndex + 1 < epub->getSpineItemsCount()) {
